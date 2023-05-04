@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="UserFormApp.MainPage">
+
+    
+    
+    <ScrollView>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Карточка -->
+            <BoxView
+                CornerRadius="10"
+                Grid.Column="1"
+                Grid.Row="1"
+                Color="White">
+                <BoxView.Shadow>
+                    <Shadow Brush="Black"
+                        Offset="8,8"
+                        Radius="10"
+                        Opacity="0.4" />
+                </BoxView.Shadow>
+            </BoxView>
+
+            <VerticalStackLayout
+                Grid.Column="1"
+                Grid.Row="1"
+                Margin="32">
+
+                <!-- Поля ввода -->
+                <Label Text="Имя:" Margin="5"/>
+                <Entry
+                    Placeholder="Введите ваше имя" 
+                    Margin="0, 0, 0, 16"
+                    Text="{Binding FirstName, UpdateSourceEventName=PropertyChanged}" />
+
+                <Label Text="Фамилия:" Margin="5"/>
+                <Entry
+                    Placeholder="Введите вашу фамилию"
+                    Margin="0, 0, 0, 16"
+                    Text="{Binding SecondName}"/>
+
+                <DatePicker 
+                    Format="dd/MM/yyyy"
+                    Margin="0, 0, 0, 16"
+                    Date="{Binding Birthday}"/>
+
+                <!-- Кнопки Сохранить и Восстановить -->
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="125"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    
+                    <Button 
+                        Grid.Column="0"
+                        Text="Сохранить" 
+                        HorizontalOptions="Start" 
+                        VerticalOptions="Center"
+                        Command="{Binding SaveData}"
+                        IsEnabled="{Binding CanCreate}"/>
+                    <!-- Кнопка подсказки -->
+                    <Button
+                        Grid.Column="1"
+                        Text="?"
+                        VerticalOptions="Center"
+                        HorizontalOptions="Center"
+                        IsVisible="{Binding CanViewHint}"
+                        Clicked="Button_Clicked"/>
+
+                    <Button 
+                        Grid.Column="2"
+                        Text="Восстановить"
+                        HorizontalOptions="End"
+                        VerticalOptions="Center"
+                        Command="{Binding RestoreData}"/>
+                        
+                </Grid>
+            </VerticalStackLayout>
+        </Grid>
+        
+    </ScrollView>
+</ContentPage>
