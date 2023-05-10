@@ -60,8 +60,8 @@ public class MainPageViewModel : BaseViewModel, INotifyDataErrorInfo {
         }
     }
    
-    public ICommand SaveData { get; set; }
-    public ICommand RestoreData { get; set; }
+    public ICommand SaveData { get; }
+    public ICommand RestoreData { get; }
 
     public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
     public bool HasErrors => _errorsViewModel.HasErrors;
