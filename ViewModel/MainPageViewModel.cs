@@ -1,19 +1,18 @@
 ﻿using System.Collections;
 using System.ComponentModel;
 using System.Text.RegularExpressions;
-using System.Windows.Input;
 using UserFormApp.Model;
 
 namespace UserFormApp.ViewModel;
 
 public class MainPageViewModel : BaseViewModel, INotifyDataErrorInfo {
 
-    private readonly ErrorsViewModel _errorsViewModel;
-    private string pattern = @"[^a-яА-ЯёЁa-zA-Z]+";
+    readonly ErrorsViewModel _errorsViewModel;
+    string pattern = @"[^a-яА-ЯёЁa-zA-Z]+";
 
-    private string _firstName;
-    private string _secondName;
-    private DateTime _birthday;
+    string _firstName;
+    string _secondName;
+    DateTime _birthday;
     public string FirstName
     {
         get => _firstName;
@@ -28,7 +27,7 @@ public class MainPageViewModel : BaseViewModel, INotifyDataErrorInfo {
                 _errorsViewModel.AddError(nameof(FirstName), "Имя должно быть валидно.");
             }
 
-            OnPropertyChanged(nameof(FirstName));
+            OnPropertyChanged();
         }
     }
     public string SecondName
@@ -44,7 +43,7 @@ public class MainPageViewModel : BaseViewModel, INotifyDataErrorInfo {
                 _errorsViewModel.AddError(nameof(SecondName), "Фамилия должна быть валидна.");
             }
 
-            OnPropertyChanged(nameof(SecondName));   
+            OnPropertyChanged();   
         }
     }
     public DateTime Birthday
@@ -55,35 +54,48 @@ public class MainPageViewModel : BaseViewModel, INotifyDataErrorInfo {
             if (_birthday != value)
             {
                 _birthday = value;
-                OnPropertyChanged(nameof(Birthday));
+                OnPropertyChanged();
             }
         }
     }
    
-    public ICommand SaveData { get; }
-    public ICommand RestoreData { get; }
+    public Command SaveData { get; }
+    public Command RestoreData { get; }
 
     public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
     public bool HasErrors => _errorsViewModel.HasErrors;
-    public bool CanCreate => !HasErrors;
     public bool CanViewHint => HasErrors;
 
     public MainPageViewModel() {
-        
-        SaveData = new Command(() => {
-            Person.FirstName = FirstName;
-            Person.SecondName = SecondName;
-            Person.Birthday= Birthday;
-        });
 
-        RestoreData = new Command(() => {
-            FirstName = Person.FirstName;
-            SecondName = Person.SecondName;
-            Birthday = Person.Birthday;
-        });
+        SaveData = new Command(SaveData_Command, SaveData_CanExecute);
+        RestoreData = new Command(RestoreData_Command, RestoreData_CanExecute);
 
         _errorsViewModel = new ErrorsViewModel();
         _errorsViewModel.ErrorsChanged += ErrorsViewModel_ErrorsChanged;
+    }
+
+    void SaveData_Command()
+    {
+        Person.FirstName = FirstName;
+        Person.SecondName = SecondName;
+        Person.Birthday = Birthday;
+    }
+    bool SaveData_CanExecute()
+    {
+        return !HasErrors;
+    } 
+
+    void RestoreData_Command()
+    {
+        FirstName = Person.FirstName;
+        SecondName = Person.SecondName;
+        Birthday = Person.Birthday;
+    }
+
+    bool RestoreData_CanExecute()
+    {
+        return true;
     }
 
     public IEnumerable GetErrors(string propertyName)
@@ -94,8 +106,10 @@ public class MainPageViewModel : BaseViewModel, INotifyDataErrorInfo {
     private void ErrorsViewModel_ErrorsChanged(object sender, DataErrorsChangedEventArgs e)
     {
         ErrorsChanged?.Invoke(this, e);
-        OnPropertyChanged(nameof(CanCreate));
         OnPropertyChanged(nameof(CanViewHint));
+
+        SaveData.ChangeCanExecute();
+        RestoreData.ChangeCanExecute();
     }
 }
 

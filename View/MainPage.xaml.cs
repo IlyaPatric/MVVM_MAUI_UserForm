@@ -5,10 +5,10 @@ namespace UserFormApp;
 public partial class MainPage : ContentPage
 {
 
-    public MainPage()
+    public MainPage(MainPageViewModel viewModel)
     {
         InitializeComponent();
-        BindingContext = new MainPageViewModel();
+        BindingContext = viewModel;
     }
 
     async void Button_Clicked(object sender, EventArgs e)
@@ -16,4 +16,3 @@ public partial class MainPage : ContentPage
         await DisplayAlert("Уведомление", "Поля Имя и Фамилия не должны содержать цифры или другие спец. знаки!", "ОК");
     }
 }
-

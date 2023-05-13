@@ -1,96 +1,97 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="UserFormApp.MainPage">
+<ContentPage
+    x:Class="UserFormApp.MainPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
-    
-    
+
+
     <ScrollView>
 
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="2*"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="2*"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="2*" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <!-- Карточка -->
+            <!--  Карточка  -->
             <BoxView
-                CornerRadius="10"
-                Grid.Column="1"
                 Grid.Row="1"
+                Grid.Column="1"
+                CornerRadius="10"
                 Color="White">
                 <BoxView.Shadow>
-                    <Shadow Brush="Black"
-                        Offset="8,8"
+                    <Shadow
+                        Brush="Black"
+                        Opacity="0.4"
                         Radius="10"
-                        Opacity="0.4" />
+                        Offset="8,8" />
                 </BoxView.Shadow>
             </BoxView>
 
             <VerticalStackLayout
-                Grid.Column="1"
                 Grid.Row="1"
+                Grid.Column="1"
                 Margin="32">
 
-                <!-- Поля ввода -->
-                <Label Text="Имя:" Margin="5"/>
+                <!--  Поля ввода  -->
+                <Label Margin="5" Text="Имя:" />
                 <Entry
-                    Placeholder="Введите ваше имя" 
-                    Margin="0, 0, 0, 16"
-                    Text="{Binding FirstName, UpdateSourceEventName=PropertyChanged}" />
+                    Margin="0,0,0,16"
+                    Placeholder="Введите ваше имя"
+                    Text="{Binding FirstName}" />
 
-                <Label Text="Фамилия:" Margin="5"/>
+                <Label Margin="5" Text="Фамилия:" />
                 <Entry
+                    Margin="0,0,0,16"
                     Placeholder="Введите вашу фамилию"
-                    Margin="0, 0, 0, 16"
-                    Text="{Binding SecondName}"/>
+                    Text="{Binding SecondName}" />
 
-                <DatePicker 
-                    Format="dd/MM/yyyy"
-                    Margin="0, 0, 0, 16"
-                    Date="{Binding Birthday}"/>
+                <DatePicker
+                    Margin="0,0,0,16"
+                    Date="{Binding Birthday}"
+                    Format="dd/MM/yyyy" />
 
-                <!-- Кнопки Сохранить и Восстановить -->
+                <!--  Кнопки Сохранить и Восстановить  -->
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="125"/>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="125" />
+                        <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
 
-                    
-                    <Button 
+
+                    <Button
                         Grid.Column="0"
-                        Text="Сохранить" 
-                        HorizontalOptions="Start" 
-                        VerticalOptions="Center"
                         Command="{Binding SaveData}"
-                        IsEnabled="{Binding CanCreate}"/>
-                    <!-- Кнопка подсказки -->
+                        HorizontalOptions="Start"
+                        Text="Сохранить"
+                        VerticalOptions="Center" />
+                    <!--  Кнопка подсказки  -->
                     <Button
                         Grid.Column="1"
-                        Text="?"
-                        VerticalOptions="Center"
+                        Clicked="Button_Clicked"
                         HorizontalOptions="Center"
                         IsVisible="{Binding CanViewHint}"
-                        Clicked="Button_Clicked"/>
+                        Text="?"
+                        VerticalOptions="Center" />
 
-                    <Button 
+                    <Button
                         Grid.Column="2"
-                        Text="Восстановить"
+                        Command="{Binding RestoreData}"
                         HorizontalOptions="End"
-                        VerticalOptions="Center"
-                        Command="{Binding RestoreData}"/>
-                        
+                        Text="Восстановить"
+                        VerticalOptions="Center" />
+
                 </Grid>
             </VerticalStackLayout>
         </Grid>
-        
+
     </ScrollView>
 </ContentPage>
